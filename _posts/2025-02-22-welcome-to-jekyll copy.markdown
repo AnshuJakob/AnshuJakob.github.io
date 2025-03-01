@@ -1,7 +1,7 @@
 ---
 layout: post
-author: Default
-title: "Welcome to Jekyll!"
+author: Snailsy
+title: "Welcome to Jekyll2!"
 date: 2025-02-22 17:41:54 -0600
 categories: jekyll update
 ---
