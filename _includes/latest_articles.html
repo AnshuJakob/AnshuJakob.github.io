@@ -1,0 +1,77 @@
+<style>
+  .categories {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 25px;
+  }
+  .categories input[type="radio"] {
+    display: none;
+  }
+  .categories label {
+    padding: 25px;
+    background: #e2e2e2;
+    font-weight: bold;
+  }
+
+  .categories .tab {
+    width: 100%;
+    padding: 20px;
+    background: #fff;
+    order: 1;
+    display: none;
+  }
+  .categories .tab h2 {
+    font-size: 3em;
+  }
+
+  .categories input[type='radio']:checked + label + .tab {
+    display: block;
+  }
+
+  .categories input[type="radio"]:checked + label {
+    background: #fff;
+  }
+</style>
+
+<div class="categories">
+
+  {% assign first_run = 1 %}
+  {% for category in site.categories %}
+    <input
+      type="radio"
+      id="{{category[0]}}"
+      name="categories"
+      {% if first_run==1 %}
+      checked
+      {% endif %}>
+    <label for="{{category[0]}}">{{ category[0] }}</label>
+    <div class="tab">
+      {% for post in category[1] limit: include.limit %}
+        <article class="post-preview">
+          <a href="{{ post.url | prepend: site.baseurl | replace: '//', '/' }}">
+            <h2 class="post-title">{{ post.title }}</h2>
+            {% if post.subtitle %}
+              <h3 class="post-subtitle">{{ post.subtitle }}</h3>
+            {% else %}
+              <h3 class="post-subtitle">{{ post.excerpt | strip_html | truncatewords: 15 }}</h3>
+            {% endif %}
+          </a>
+          <p class="post-meta">Posted by
+            {% if post.author %}
+              {{ post.author }}
+            {% else %}
+              {{ site.author }}
+            {% endif %}
+            on
+            {{ post.date | date: '%B %d, %Y' }} &middot; {% include read_time.html content=post.content %}
+          </p>
+        </article>
+
+        <hr>
+      {% endfor %}
+    </div>
+    {% assign first_run = 0 %}
+  {% endfor %}
+</div>
